@@ -67,7 +67,7 @@ export class Main extends plugin {
 
         if (response) {
           const mask_word = serverConfig.mask_word;
-          response = response.replace(new RegExp(mask_word, "g"), '').replace(/§./g, "").trim();
+          response = response.replace(new RegExp(mask_word, "g"), '');
 
           await e.reply(response);
           if (debug_mode) {
@@ -81,7 +81,7 @@ export class Main extends plugin {
       } else {
 
         let messages = [{
-          text: `${mc_qq_send_group_name ? `[${e.group_name}] ` : ""}[${e.sender.nickname}] ` + mc_qq_say_way,
+          text: `${e.sender.card} ` + mc_qq_say_way,
         }];
 
         e.message.forEach(element => {
@@ -104,7 +104,7 @@ export class Main extends plugin {
 
           let text = messages.map(msg => msg.text).join('');
 
-          servers[serverConfig.server_name].send('say ' + text);
+          servers[serverConfig.server_name].send(`tellraw @a {"text":"[\u00a7aQQ\u00a7f] ${text}"}`);
 
           if (debug_mode) {
             logger.mark(
